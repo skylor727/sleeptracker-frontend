@@ -1,0 +1,19 @@
+.logo {
+    height: 4rem;
+}
+
+.quarter-moon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50% 50% 0 0;
+    background-color: #CBD5E0;
+    transform: rotate(-45deg);
+    box-shadow: -0.2rem 0.2rem 0 rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Comfortaa', cursive;
+}
+
+
+

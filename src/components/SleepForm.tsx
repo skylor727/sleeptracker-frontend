@@ -1,13 +1,12 @@
 import { useState } from "react";
-
+import { calculateTime } from "~/server/helper";
 type SleepFormData = { [index: string]: string };
 
 const handleSubmit = (sleepFormData: SleepFormData) => {
-  console.log(sleepFormData.calculationChoice === "wakeUp");
   sleepFormData.calculationChoice === "wakeUp"
     ? (sleepFormData["goToSleep"] = "")
     : (sleepFormData["wakeUp"] = "");
-  console.log(sleepFormData);
+  calculateTime(sleepFormData);
 };
 
 export const SleepForm = () => {
@@ -41,11 +40,14 @@ export const SleepForm = () => {
                 {
                   setSelected(e.target.value);
                   sleepFormData[e.target.name] = e.target.value;
+                  sleepFormData[e.target.value] =
+                    e.target.value === "wakeUp"
+                      ? sleepFormData["wakeUp"]
+                      : sleepFormData["goToSleep"];
                 }
               }}
-              id=""
             >
-              <option value="null">Select an option</option>
+              <option value="">Select an option</option>
               <option value="wakeUp">Wake up</option>
               <option value="goToSleep">Go To Sleep</option>
             </select>
@@ -57,6 +59,7 @@ export const SleepForm = () => {
                 className="input-bordered input"
                 type="time"
                 name="wakeUp"
+                required
                 onChange={(e) => {
                   sleepFormData[e.target.name] = e.target.value;
                 }}
@@ -70,6 +73,7 @@ export const SleepForm = () => {
                   className="input-bordered input"
                   type="time"
                   name="goToSleep"
+                  required
                   onChange={(e) =>
                     (sleepFormData[e.target.name] = e.target.value)
                   }

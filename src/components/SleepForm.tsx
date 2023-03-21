@@ -6,7 +6,8 @@ const handleSubmit = (sleepFormData: SleepFormData) => {
   sleepFormData.calculationChoice === "wakeUp"
     ? (sleepFormData["goToSleep"] = "")
     : (sleepFormData["wakeUp"] = "");
-  calculateTime(sleepFormData);
+  let calculatedTime = calculateTime(sleepFormData);
+  console.log(calculatedTime);
 };
 
 export const SleepForm = () => {

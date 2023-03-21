@@ -1,36 +1,45 @@
 type SleepFormData = { [index: string]: string };
+
 export const calculateTime = (sleepData: SleepFormData) => {
+  const idealHours = 7;
+  const idealMinutes = 45; //Ideal minutes is technically 30 but add 15 for time to fall asleep
   console.log(sleepData);
-  getMinutes(sleepData.wakeUp!);
-  const date12 = convertTo12Hour(sleepData.wakeUp!);
-  const time12 = format12Hour(date12);
-  //   console.log(time12);
+  const calculatedTime =
+    sleepData.calculationChoice === "goToSleep"
+      ? addTime(sleepData.goToSleep, idealHours, idealMinutes)
+      : subtractTime(sleepData.wakeUp, idealHours, idealMinutes);
+  return calculatedTime;
 };
 
-const convertTo12Hour = (time: String): Date => {
-  const [hour, minute] = time.split(":").map(Number);
+const format12Hour = (hour: number, minute: number): string => {
+  const hours12 = hour % 12 || 12;
+  const amPm = hour < 12 ? "AM" : "PM";
+  const formattedHour = String(hours12).padStart(2, "0");
+  const formattedMinute = String(minute).padStart(2, "0");
+
+  return `${formattedHour}:${formattedMinute} ${amPm}`;
+};
+
+const subtractTime = (time: string, hours: number, minutes: number): string => {
+  const [inputHour, inputMinute] = time.split(":").map(Number);
   const date = new Date();
-  date.setHours(hour!);
-  date.setMinutes(minute!);
-  return date;
+  date.setHours(inputHour - hours);
+  date.setMinutes(inputMinute - minutes);
+
+  const resultHour = String(date.getHours()).padStart(2, "0");
+  const resultMinute = String(date.getMinutes()).padStart(2, "0");
+
+  return format12Hour(resultHour, resultMinute);
 };
 
-const format12Hour = (date: Date): string => {
-  const hours24 = date.getHours();
-  const hours12 = hours24 % 12 || 12;
-  const amPm = hours24 < 12 ? "AM" : "PM";
-  const minutes = date.getMinutes();
-  const paddedMinutes = String(minutes).padStart(2, "0");
-  return `${hours12}:${paddedMinutes} ${amPm}`;
-};
+const addTime = (time: string, hours: number, minutes: number): string => {
+  const [inputHour, inputMinute] = time.split(":").map(Number);
+  const date = new Date();
+  date.setHours(inputHour + hours);
+  date.setMinutes(inputMinute + minutes);
 
-const getMinutes = (timeString: string) => {
-  const [hour, minute] = timeString.split(":");
+  const resultHour = String(date.getHours()).padStart(2, "0");
+  const resultMinute = String(date.getMinutes()).padStart(2, "0");
 
-  /* Take the 24 hr version of hr and multiply by 60 then add the 
-  remaining minutes + 15 to account for time to fall asleep
-  then add 405 to account for the 5 full sleep cycles
-  */
-  const minutes = parseInt(hour!) * 60 + parseInt(minute!) + 15 + 405;
-  console.log(minutes);
+  return format12Hour(resultHour, resultMinute);
 };

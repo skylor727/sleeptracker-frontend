@@ -1,12 +1,12 @@
 import { signIn, signOut, useSession } from "next-auth/react"
+
 export const Header = () => {
     const { data: sessionData } = useSession();
     return (
-
         <div className="flex justify-between">
             <div className="flex items-center text-3xl font-bold text-blue-500 logo">
-                <div className="w-8 h-8 rounded-full bg-blue-500 mr-2 quarter-moon">
-                    <div className="w-6 h-6 rounded-full bg-gray-200 transform rotate-45 origin-top-right"></div>
+                <div className="w-8 h-8 bg-blue-500 mr-2 relative overflow-hidden rounded-full">
+                    <div className="w-16 h-16 bg-white absolute top-0 left-1 rounded-full"></div>
                 </div>
                 <div>Sleep Tracker</div>
             </div>
@@ -28,9 +28,5 @@ export const Header = () => {
                 </button>
             )}
         </div>
-
     );
 };
-
-
-

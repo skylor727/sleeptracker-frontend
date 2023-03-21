@@ -1,7 +1,24 @@
 import { useState } from "react";
 
+type SleepFormData = { [index: string]: string };
+
+const handleSubmit = (sleepFormData: SleepFormData) => {
+  console.log(sleepFormData.calculationChoice === "wakeUp");
+  sleepFormData.calculationChoice === "wakeUp"
+    ? (sleepFormData["goToSleep"] = "")
+    : (sleepFormData["wakeUp"] = "");
+  console.log(sleepFormData);
+};
+
 export const SleepForm = () => {
   const [selected, setSelected] = useState("");
+  const [sleepFormData, setSleepFormData] = useState<SleepFormData>({
+    calculationChoice: "",
+    goToSleep: "",
+    wakeUp: "",
+    calculatedTime: "",
+  });
+
   return (
     <>
       <h1 className="text-center text-4xl font-bold">Sleep Calculator</h1>
@@ -9,7 +26,7 @@ export const SleepForm = () => {
         action=""
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(e);
+          handleSubmit(sleepFormData);
         }}
       >
         <div className="input-group-md flex flex-col">
@@ -19,11 +36,16 @@ export const SleepForm = () => {
             <select
               className="select-bordered select max-w-xs"
               value={selected}
-              onChange={(e) => setSelected(e.target.value)}
-              name="calculation_choices"
+              name="calculationChoice"
+              onChange={(e) => {
+                {
+                  setSelected(e.target.value);
+                  sleepFormData[e.target.name] = e.target.value;
+                }
+              }}
               id=""
             >
-              <option value="">Select an option</option>
+              <option value="null">Select an option</option>
               <option value="wakeUp">Wake up</option>
               <option value="goToSleep">Go To Sleep</option>
             </select>
@@ -31,13 +53,27 @@ export const SleepForm = () => {
           {selected && selected === "wakeUp" ? (
             <label htmlFor="">
               What time will you wake up?
-              <input className="input-bordered input" type="time" />
+              <input
+                className="input-bordered input"
+                type="time"
+                name="wakeUp"
+                onChange={(e) => {
+                  sleepFormData[e.target.name] = e.target.value;
+                }}
+              />
             </label>
           ) : (
             selected && (
               <label htmlFor="">
                 What time will you go to sleep?
-                <input className="input-bordered input" type="time" />
+                <input
+                  className="input-bordered input"
+                  type="time"
+                  name="goToSleep"
+                  onChange={(e) =>
+                    (sleepFormData[e.target.name] = e.target.value)
+                  }
+                />
               </label>
             )
           )}

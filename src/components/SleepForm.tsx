@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { calculateTime } from "~/server/helper";
 type SleepFormData = { [index: string]: string };
 
@@ -12,12 +12,25 @@ const handleSubmit = (sleepFormData: SleepFormData) => {
 
 export const SleepForm = () => {
   const [selected, setSelected] = useState("");
+  const [calculatedTime, setCalculatedTime] = useState("");
   const [sleepFormData, setSleepFormData] = useState<SleepFormData>({
     calculationChoice: "",
     goToSleep: "",
     wakeUp: "",
     calculatedTime: "",
   });
+
+  useEffect(() => {
+    console.log(sleepFormData.wakeUp);
+    console.log(sleepFormData.goToSleep);
+    if (sleepFormData.wakeUp || sleepFormData.goToSleep) {
+      try {
+        setCalculatedTime(calculateTime(sleepFormData));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [sleepFormData]);
 
   return (
     <>
@@ -38,14 +51,17 @@ export const SleepForm = () => {
               value={selected}
               name="calculationChoice"
               onChange={(e) => {
-                {
-                  setSelected(e.target.value);
-                  sleepFormData[e.target.name] = e.target.value;
-                  sleepFormData[e.target.value] =
-                    e.target.value === "wakeUp"
-                      ? sleepFormData["wakeUp"]
-                      : sleepFormData["goToSleep"];
-                }
+                setSelected(e.target.value);
+                const timeField =
+                  e.target.value === "wakeUp" ? "wakeUp" : "goToSleep";
+                setSleepFormData((prevState) => {
+                  const updatedState = {
+                    ...prevState,
+                    [e.target.name]: e.target.value,
+                    [timeField]: prevState[timeField],
+                  };
+                  return updatedState as SleepFormData;
+                });
               }}
             >
               <option value="">Select an option</option>
@@ -62,7 +78,10 @@ export const SleepForm = () => {
                 name="wakeUp"
                 required
                 onChange={(e) => {
-                  sleepFormData[e.target.name] = e.target.value;
+                  setSleepFormData((prevState) => ({
+                    ...prevState,
+                    [e.target.name]: e.target.value,
+                  }));
                 }}
               />
             </label>
@@ -75,9 +94,12 @@ export const SleepForm = () => {
                   type="time"
                   name="goToSleep"
                   required
-                  onChange={(e) =>
-                    (sleepFormData[e.target.name] = e.target.value)
-                  }
+                  onChange={(e) => {
+                    setSleepFormData((prevState) => ({
+                      ...prevState,
+                      [e.target.name]: e.target.value,
+                    }));
+                  }}
                 />
               </label>
             )
@@ -85,15 +107,14 @@ export const SleepForm = () => {
           <div>
             {selected && selected === "wakeUp" ? (
               <span>
-                {" "}
                 Based off the time you are waking up, you should go to bed by
-                *calculatedTime*
+                {calculatedTime}
               </span>
             ) : (
               selected && (
                 <span>
                   Based off the time you are going to sleep, you should wake up
-                  by *calculatedTime*
+                  by {calculatedTime}
                 </span>
               )
             )}

@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import { calculateTime } from "~/server/helper";
-type SleepFormData = { [index: string]: string };
-
-const handleSubmit = (sleepFormData: SleepFormData) => {
-  sleepFormData.calculationChoice === "wakeUp"
-    ? (sleepFormData["goToSleep"] = "")
-    : (sleepFormData["wakeUp"] = "");
-  let calculatedTime = calculateTime(sleepFormData);
-  console.log(calculatedTime);
-};
+import { sendRequest } from "~/server/send-request";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+type SleepFormData = {
+  [K in keyof Partial<{ userId: string }>]: string;
+} & { [index: string]: string };
 
 export const SleepForm = () => {
+  const router = useRouter();
+  const {session, loading} = useSession();
   const [selected, setSelected] = useState("");
   const [calculatedTime, setCalculatedTime] = useState("");
   const [sleepFormData, setSleepFormData] = useState<SleepFormData>({
@@ -19,6 +18,21 @@ export const SleepForm = () => {
     wakeUp: "",
     calculatedTime: "",
   });
+
+  const redirect = () => {
+    router.push("/sleep-log");
+  };
+
+  const handleSubmit = (sleepFormData: SleepFormData) => {
+    sleepFormData.calculationChoice === "wakeUp"
+      ? (sleepFormData["goToSleep"] = "")
+      : (sleepFormData["wakeUp"] = "");
+    let calculatedTime = calculateTime(sleepFormData);
+    sleepFormData.calculatedTime = calculatedTime;
+    sleepFormData.userId = session.user.id;
+    sendRequest("POST", sleepFormData);
+    redirect();
+  };
 
   useEffect(() => {
     if (sleepFormData.wakeUp || sleepFormData.goToSleep) {

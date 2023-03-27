@@ -58,7 +58,6 @@ export const SleepForm = () => {
                       e.target.value === "wakeUp" ? "wakeUp" : "goToSleep";
                     const oppositeField =
                       timeField === "wakeUp" ? "goToSleep" : "wakeUp";
-                    // const currentTime = sleepFormData[oppositeField] || "";
                     setSleepFormData((prevState) => {
                       const updatedState = {
                         ...prevState,

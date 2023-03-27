@@ -3,7 +3,6 @@ type SleepFormData = { [index: string]: string };
 export const calculateTime = (sleepData: SleepFormData) => {
   const idealHours = 7;
   const idealMinutes = 45; //Ideal minutes is technically 30 but add 15 for time to fall asleep
-  console.log(sleepData);
   const calculatedTime =
     sleepData.calculationChoice === "goToSleep"
       ? addTime(sleepData.goToSleep, idealHours, idealMinutes)

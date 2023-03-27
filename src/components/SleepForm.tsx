@@ -21,8 +21,6 @@ export const SleepForm = () => {
   });
 
   useEffect(() => {
-    console.log(sleepFormData.wakeUp);
-    console.log(sleepFormData.goToSleep);
     if (sleepFormData.wakeUp || sleepFormData.goToSleep) {
       try {
         setCalculatedTime(calculateTime(sleepFormData));
@@ -54,11 +52,15 @@ export const SleepForm = () => {
                 setSelected(e.target.value);
                 const timeField =
                   e.target.value === "wakeUp" ? "wakeUp" : "goToSleep";
+                const oppositeField =
+                  timeField === "wakeUp" ? "goToSleep" : "wakeUp";
+                // const currentTime = sleepFormData[oppositeField] || "";
                 setSleepFormData((prevState) => {
                   const updatedState = {
                     ...prevState,
                     [e.target.name]: e.target.value,
-                    [timeField]: prevState[timeField],
+                    [timeField]: prevState[oppositeField],
+                    [oppositeField]: "",
                   };
                   return updatedState as SleepFormData;
                 });
@@ -105,16 +107,17 @@ export const SleepForm = () => {
             )
           )}
           <div>
-            {selected && selected === "wakeUp" ? (
+            {selected && calculatedTime && selected === "wakeUp" ? (
               <span>
-                Based off the time you are waking up, you should go to bed by
-                {calculatedTime}
+                {`Based off the time you are waking up, you should go to bed by 
+                ${calculatedTime}`}
               </span>
             ) : (
-              selected && (
+              selected &&
+              calculatedTime && (
                 <span>
-                  Based off the time you are going to sleep, you should wake up
-                  by {calculatedTime}
+                  {`Based off the time you are going to sleep, you should wake up
+                  by ${calculatedTime}`}
                 </span>
               )
             )}

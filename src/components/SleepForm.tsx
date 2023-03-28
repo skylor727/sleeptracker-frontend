@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { calculateTime } from "~/server/helper";
+import { calculateTime, format12Hour } from "~/server/helper";
 import { sendRequest } from "~/server/send-request";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -24,11 +24,26 @@ export const SleepForm = () => {
   };
 
   const handleSubmit = (sleepFormData: SleepFormData) => {
+    let calculatedTime = calculateTime(sleepFormData);
+    sleepFormData.calculatedTime = calculatedTime;
+    if (sleepFormData.calculationChoice === "wakeUp") {
+      sleepFormData["goToSleep"] = "";
+      sleepFormData.wakeUp = format12Hour(
+        undefined,
+        undefined,
+        sleepFormData.wakeUp
+      );
+    } else {
+      sleepFormData["wakeUp"] = "";
+      sleepFormData.wakeUp = format12Hour(
+        undefined,
+        undefined,
+        sleepFormData.goToSleep
+      );
+    }
     sleepFormData.calculationChoice === "wakeUp"
       ? (sleepFormData["goToSleep"] = "")
       : (sleepFormData["wakeUp"] = "");
-    let calculatedTime = calculateTime(sleepFormData);
-    sleepFormData.calculatedTime = calculatedTime;
     sleepFormData.userId = sessionData?.user.id;
     sendRequest("POST", sleepFormData);
     redirect();

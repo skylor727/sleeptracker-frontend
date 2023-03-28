@@ -9,7 +9,7 @@ type SleepFormData = {
 
 export const SleepForm = () => {
   const router = useRouter();
-  const {session, loading} = useSession();
+  const { data: sessionData } = useSession();
   const [selected, setSelected] = useState("");
   const [calculatedTime, setCalculatedTime] = useState("");
   const [sleepFormData, setSleepFormData] = useState<SleepFormData>({
@@ -29,7 +29,7 @@ export const SleepForm = () => {
       : (sleepFormData["wakeUp"] = "");
     let calculatedTime = calculateTime(sleepFormData);
     sleepFormData.calculatedTime = calculatedTime;
-    sleepFormData.userId = session.user.id;
+    sleepFormData.userId = sessionData?.user.id;
     sendRequest("POST", sleepFormData);
     redirect();
   };

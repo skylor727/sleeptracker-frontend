@@ -1,14 +1,25 @@
 import SleepCard from "../../components/SleepCard";
 import { sendRequest } from "~/server/send-request";
-import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export const UsersSleepLog = () => {
-  const { data: session } = useSession();
+  const router = useRouter();
+  const { userId } = router.query;
+  const [sleeps, setSleeps] = useState([]);
 
-  const getUsersSleeps = () => {
+  const getUsersSleeps = async () => {
+    if (userId) {
+      const data = await sendRequest("GET", `/sleeps/${userId}`);
+      setSleeps(data);
+    }
+  };
 
-  }
-  if (!session) return <div>Loading...</div>;
+  useEffect(() => {
+    getUsersSleeps();
+  }, [userId]);
+
+  if (!sleeps) return <div>Loading...</div>;
 
   return (
     <>

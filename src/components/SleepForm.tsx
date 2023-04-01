@@ -45,7 +45,7 @@ export const SleepForm = () => {
       ? (sleepFormData["goToSleep"] = "")
       : (sleepFormData["wakeUp"] = "");
     sleepFormData.userId = sessionData?.user.id;
-    sendRequest("POST", sleepFormData);
+    sendRequest("POST", "/sleep", sleepFormData);
     redirect();
   };
 

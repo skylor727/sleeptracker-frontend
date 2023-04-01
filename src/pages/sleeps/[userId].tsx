@@ -31,16 +31,20 @@ export const UsersSleepLog = () => {
   return (
     <>
       <h1 className="mb-6 text-center text-2xl font-bold">Sleep Log</h1>
-      {sleeps &&
-        sleeps.map((sleep, index) => (
-          <SleepCard
-            key={index}
-            sleepDate={sleep.createdAt}
-            timeToWakeUp={sleep.wakeUp}
-            timeWentToBed={sleep.goToSleep}
-            calculatedTimeToSleep={sleep.calculatedTime}
-          ></SleepCard>
-        ))}
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 gap-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {sleeps &&
+            sleeps.map((sleep, index) => (
+              <SleepCard
+                key={index}
+                sleepDate={sleep.createdAt}
+                timeToWakeUp={sleep.wakeUp}
+                timeWentToBed={sleep.goToSleep}
+                calculatedTimeToSleep={sleep.calculatedTime}
+              ></SleepCard>
+            ))}
+        </div>
+      </div>
     </>
   );
 };

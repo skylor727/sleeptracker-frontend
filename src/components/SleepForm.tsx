@@ -35,7 +35,7 @@ export const SleepForm = () => {
       );
     } else {
       sleepFormData["wakeUp"] = "";
-      sleepFormData.wakeUp = format12Hour(
+      sleepFormData.goToSleep = format12Hour(
         undefined,
         undefined,
         sleepFormData.goToSleep

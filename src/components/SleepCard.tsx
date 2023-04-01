@@ -19,7 +19,7 @@ export const SleepCard: React.FC<SleepCardProps> = ({
           {timeToWakeUp ? (
             <li>Planned time to awake: {timeToWakeUp}</li>
           ) : (
-            <li>Planned time to go to sleep for : {timeWentToBed}</li>
+            <li>Planned time to go to sleep: {timeWentToBed}</li>
           )}
 
           <li>

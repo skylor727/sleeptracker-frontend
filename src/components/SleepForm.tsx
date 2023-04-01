@@ -20,7 +20,7 @@ export const SleepForm = () => {
   });
 
   const redirect = () => {
-    router.push("/sleep-log");
+    router.push(`/sleeps/${sessionData?.user.id}`);
   };
 
   const handleSubmit = (sleepFormData: SleepFormData) => {

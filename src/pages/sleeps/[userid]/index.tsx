@@ -1,6 +1,6 @@
-import SleepCard from "../../components/SleepCard";
+import SleepCard from "../../../components/SleepCard";
 import { sendRequest } from "~/server/send-request";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
 
 interface Sleep {
@@ -10,10 +10,14 @@ interface Sleep {
   calculatedTime: string;
 }
 
-export const UsersSleepLog = () => {
+const UsersSleepLog = () => {
   const router = useRouter();
-  const { userId } = router.query;
   const [sleeps, setSleeps] = useState<Sleep[]>([]);
+
+  const userId = useMemo(() => {
+    const pathParts = router.asPath.split("/");
+    return pathParts.length > 2 ? pathParts[2] : null;
+  }, [router.asPath]);
 
   const getUsersSleeps = async () => {
     if (userId) {
@@ -23,6 +27,7 @@ export const UsersSleepLog = () => {
   };
 
   useEffect(() => {
+    if (!userId) return;
     getUsersSleeps();
   }, [userId]);
 
@@ -30,7 +35,7 @@ export const UsersSleepLog = () => {
 
   return (
     <>
-      <h1 className="mb-6 text-center text-2xl font-bold">Sleep Log</h1>
+      <h1 className="mb-6 pt-8 text-center text-4xl font-bold">Sleep Log</h1>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {sleeps &&

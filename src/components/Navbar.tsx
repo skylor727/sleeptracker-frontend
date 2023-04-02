@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 
-export const Header = () => {
+export const Navbar = () => {
     const { data: sessionData } = useSession();
     return (
         <div className="flex justify-between">

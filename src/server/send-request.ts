@@ -14,7 +14,6 @@ export const sendRequest = async (
     body: payload ? JSON.stringify(payload) : undefined,
   };
   let url = `${base_url}${apiUrl}`;
-  console.log(url);
   url = encodeURI(url);
   const res = await fetch(url, options);
   if (res.ok) return res.json();

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import SleepInfo from "~/components/SleepInfo";
 import { sendRequest } from "~/server/send-request";
 
 interface Sleep {
@@ -31,7 +32,17 @@ export const SleepDetails = () => {
 
   return (
     <>
-      <div>hi</div>
+      <SleepInfo
+        sleepDate={sleep?.createdAt}
+        timeToWakeUp={sleep?.wakeUp}
+        timeWentToBed={sleep?.goToSleep}
+        calculatedTimeToSleep={sleep?.calculatedTime}
+      />
+      <textarea
+        className="textarea-bordered textarea"
+        placeholder="Sleep Note"
+      ></textarea>
+      <button className="btn">Add Note</button>
     </>
   );
 };

@@ -8,6 +8,8 @@ interface Sleep {
   wakeUp?: string;
   goToSleep?: string;
   calculatedTime: string;
+  id: number;
+  userId: string | null | undefined;
 }
 
 const UsersSleepLog = () => {
@@ -46,6 +48,8 @@ const UsersSleepLog = () => {
                 timeToWakeUp={sleep.wakeUp}
                 timeWentToBed={sleep.goToSleep}
                 calculatedTimeToSleep={sleep.calculatedTime}
+                sleepId={sleep.id}
+                userId={userId}
               ></SleepCard>
             ))}
         </div>

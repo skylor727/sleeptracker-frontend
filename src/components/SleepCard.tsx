@@ -1,6 +1,10 @@
+import { useRouter } from "next/router";
+
 type SleepCardProps = {
   sleepDate: string;
   calculatedTimeToSleep: string;
+  sleepId: number;
+  userId: string | null | undefined;
   timeToWakeUp?: string;
   timeWentToBed?: string;
 };
@@ -10,7 +14,14 @@ export const SleepCard: React.FC<SleepCardProps> = ({
   timeToWakeUp,
   timeWentToBed,
   calculatedTimeToSleep,
+  userId,
+  sleepId,
 }) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/sleeps/${userId}/${sleepId}`);
+  };
+
   return (
     <div className="card w-96 bg-[#131d35] shadow-xl">
       <div className="card-body">
@@ -28,7 +39,9 @@ export const SleepCard: React.FC<SleepCardProps> = ({
           </li>
         </ul>
         <div className="card-actions justify-end">
-          <button className="btn-primary btn">Details</button>
+          <button onClick={handleClick} className="btn-primary btn">
+            Details
+          </button>
         </div>
       </div>
     </div>

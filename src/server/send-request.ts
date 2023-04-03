@@ -4,7 +4,7 @@ type SleepFormData = { [index: string]: string };
 export const sendRequest = async (
   method: string,
   apiUrl: string,
-  payload?: SleepFormData
+  payload?: SleepFormData | string
 ) => {
   const options: RequestInit = {
     method: method,

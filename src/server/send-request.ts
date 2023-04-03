@@ -16,5 +16,11 @@ export const sendRequest = async (
   let url = `${base_url}${apiUrl}`;
   url = encodeURI(url);
   const res = await fetch(url, options);
-  if (res.ok) return res.json();
+  if (res.ok) {
+    try {
+      return await res.json();
+    } catch (e) {
+      console.log("error with json  " + e);
+    }
+  }
 };

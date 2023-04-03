@@ -27,9 +27,17 @@ export const SleepDetails = () => {
   };
 
   const handleDelete = () => {
-    console.log("delete");
+    console.log("deleteo");
   };
-  
+
+  const handleNoteDelete = async (noteIndex: number) => {
+    const udpatedData = await sendRequest(
+      "DELETE",
+      `/sleeps/${userId}/${sleepId}/${noteIndex}`
+    );
+    setSleep(udpatedData);
+  };
+
   const getSleep = async () => {
     const data = await sendRequest("GET", `/sleeps/${userId}/${sleepId}`);
     setSleep(data);
@@ -39,7 +47,7 @@ export const SleepDetails = () => {
     if (userId && sleepId) {
       getSleep();
     }
-  }, [router.query, router.isReady]);
+  }, [router.query, router.isReady, sleep]);
 
   return (
     <>
@@ -59,20 +67,30 @@ export const SleepDetails = () => {
         }}
         action=""
       >
-        <textarea
-          className="textarea-bordered textarea"
-          placeholder="Sleep Note"
-          value={sleepNote}
-          onChange={(e) => {
-            setSleepNote(e.target.value);
-          }}
-        ></textarea>
-        <button className="btn">Add Note</button>
+        <div className="form-control mt-10 mx-auto w-full sm:w-1/2 lg:w-1/3">
+          <textarea
+            className="textarea-bordered textarea h-24 w-[700px]"
+            placeholder="Sleep Note"
+            value={sleepNote}
+            onChange={(e) => {
+              setSleepNote(e.target.value);
+            }}
+          ></textarea>
+          <button className="btn mx-auto mt-4 w-full sm:w-1/4 lg:w-1/6">
+            Add Note
+          </button>
+        </div>
       </form>
       <h2 className="mb-6 pt-8 text-center text-2xl font-bold">Sleep Notes</h2>
-      {sleep?.notes.map((note, idx) => (
-        <SleepNoteBubble key={idx} note={note} onDelete={handleDelete} />
-      ))}
+      <div className=" mx-auto w-full sm:w-1/2 lg:w-1/3">
+        {sleep?.notes.map((note, idx) => (
+          <SleepNoteBubble
+            key={idx}
+            note={note}
+            onDelete={() => handleNoteDelete(idx)}
+          />
+        ))}
+      </div>
     </>
   );
 };

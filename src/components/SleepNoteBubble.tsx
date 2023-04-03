@@ -10,8 +10,8 @@ export const SleepNoteBubble: React.FC<SleepNoteBubbleProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="rounded-lg bg-[#131d35] relative mb-4 p-4 shadow-xl ">
-      <p className="whitespace-pre-wrap">{note.replace(/^"(.*)"$/, "$1")}</p>
+    <div className="relative mb-4 w-[700px] rounded-lg bg-[#131d35] p-4 shadow-xl ">
+      <p className="whitespace-pre-wrap break-words">{note.replace(/^"(.*)"$/, "$1")}</p>
       {onDelete && (
         <button
           className="absolute top-1 right-1 text-lg font-bold text-red-500"

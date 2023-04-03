@@ -15,7 +15,7 @@ export const Navbar = () => {
         <div className="relative mr-2 h-8 w-8 overflow-hidden rounded-full bg-blue-500">
           <div className="absolute top-0 left-1 h-16 w-16 rounded-full bg-white"></div>
         </div>
-        <a href="" onClick={() => handlePathChange("/")}>
+        <a href="#" onClick={() => handlePathChange("/")}>
           <div>Sleep Tracker</div>
         </a>
       </div>

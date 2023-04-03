@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SleepInfo from "~/components/SleepInfo";
 import SleepNoteBubble from "~/components/SleepNoteBubble";
@@ -21,13 +21,18 @@ export const SleepDetails = () => {
   const userId = pathMatch ? pathMatch[1] : null;
   const sleepId = pathMatch ? pathMatch[2] : null;
 
+  const handleRedirect = () => {
+    router.push(`/sleeps/${userId}`);
+  };
+
   const handleSubmit = async () => {
     sendRequest("POST", `/sleeps/${userId}/${sleepId}`, sleepNote);
     setSleepNote("");
   };
 
   const handleDelete = () => {
-    console.log("deleteo");
+    sendRequest("DELETE", `/sleeps/${userId}/${sleepId}`);
+    handleRedirect();
   };
 
   const handleNoteDelete = async (noteIndex: number) => {
@@ -59,6 +64,7 @@ export const SleepDetails = () => {
         timeToWakeUp={sleep?.wakeUp}
         timeWentToBed={sleep?.goToSleep}
         calculatedTimeToSleep={sleep?.calculatedTime}
+        onDelete={handleDelete}
       />
       <form
         onSubmit={(e) => {
@@ -67,7 +73,7 @@ export const SleepDetails = () => {
         }}
         action=""
       >
-        <div className="form-control mt-10 mx-auto w-full sm:w-1/2 lg:w-1/3">
+        <div className="form-control mx-auto mt-10 w-full sm:w-1/2 lg:w-1/3">
           <textarea
             className="textarea-bordered textarea h-24 w-[700px]"
             placeholder="Sleep Note"

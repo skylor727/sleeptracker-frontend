@@ -6,6 +6,7 @@ type SleepCardProps = {
   notes: string[] | undefined;
   timeToWakeUp?: string;
   timeWentToBed?: string;
+  onDelete?: () => void;
 };
 
 export const SleepInfo: React.FC<SleepCardProps> = ({
@@ -15,6 +16,7 @@ export const SleepInfo: React.FC<SleepCardProps> = ({
   calculatedTimeToSleep,
   userId,
   sleepId,
+  onDelete,
 }) => {
   return (
     <div className="rounded-lg bg-base-200 p-6 text-center text-base-content shadow-lg">
@@ -34,7 +36,7 @@ export const SleepInfo: React.FC<SleepCardProps> = ({
         </li>
       </ul>
       <div className="my-4">
-        <button className="btn-error btn" onClick={() => console.log("dle")}>
+        <button className="btn-error btn" onClick={onDelete}>
           Delete
         </button>
       </div>

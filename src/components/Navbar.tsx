@@ -4,11 +4,9 @@ import { useRouter } from "next/router";
 export const Navbar = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
-
   const handlePathChange = (path: string) => {
     router.push(path);
   };
-
   return (
     <div className="flex justify-between">
       <div className="logo flex items-center text-3xl font-bold text-blue-500">
@@ -50,7 +48,7 @@ export const Navbar = () => {
       ) : (
         <button
           className="btn-ghost rounded-btn btn"
-          onClick={() => void signIn()}
+          onClick={() => signIn("google")}
         >
           Sign in
         </button>

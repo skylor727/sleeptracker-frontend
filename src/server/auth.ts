@@ -4,8 +4,6 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import { JWT } from "next-auth/jwt";
-import { Account, Profile, User as AdapterUser } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
@@ -34,35 +32,16 @@ declare module "next-auth" {
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- * async jwt(token: JWT, user?: AdapterUser, account?: Account | null, profile?: Profile) {
+ *
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    async jwt(
-      token: JWT,
-      user?: AdapterUser,
-      account?: Account | null,
-      profile?: Profile
-    ) {
-      if (account?.provider === "google" && user) {
-        //Send the user email and google access token to spring backend
-        const res = await fetch("http://localhost:8080/sleep-api/get-user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-            accessToken: account.accessToken,
-          }),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          token.jwt = data.token;
-        }
+    session({ session, user }) {
+      if (session.user) {
+        session.user.id = user.id;
       }
-      return token;
+      return session;
     },
   },
   adapter: PrismaAdapter(prisma),

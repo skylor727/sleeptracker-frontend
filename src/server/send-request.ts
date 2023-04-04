@@ -1,3 +1,5 @@
+import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 let base_url = "http://localhost:8080";
 type SleepFormData = { [index: string]: string };
 
@@ -6,6 +8,8 @@ export const sendRequest = async (
   apiUrl: string,
   payload?: SleepFormData | string
 ) => {
+  const session = await getSession();
+  console.log(session);
   const options: RequestInit = {
     method: method,
     headers: new Headers({

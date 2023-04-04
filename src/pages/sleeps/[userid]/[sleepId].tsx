@@ -1,8 +1,9 @@
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SleepInfo from "~/components/SleepInfo";
 import SleepNoteBubble from "~/components/SleepNoteBubble";
 import { sendRequest } from "~/server/send-request";
+import withAuth from "~/withAuth";
 
 interface Sleep {
   createdAt: string;
@@ -13,7 +14,7 @@ interface Sleep {
   userId: string | null | undefined;
 }
 
-export const SleepDetails = () => {
+const SleepDetails: React.FC = () => {
   const router = useRouter();
   const [sleep, setSleep] = useState<Sleep>();
   const [sleepNote, setSleepNote] = useState("");
@@ -101,4 +102,4 @@ export const SleepDetails = () => {
   );
 };
 
-export default SleepDetails;
+export default withAuth(SleepDetails);

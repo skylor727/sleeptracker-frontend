@@ -1,9 +1,12 @@
-import { SleepForm } from "~/components/SleepForm"
+import { SleepForm } from "~/components/SleepForm";
+import withAuth from "~/withAuth";
 
-export default function Sleep() {
-    return (
-        <>
-            <SleepForm />
-        </>
-    )
-}
+const Sleep: React.FC = () => {
+  return (
+    <>
+      <SleepForm />
+    </>
+  );
+};
+
+export default withAuth(Sleep);

@@ -2,6 +2,7 @@ import SleepCard from "../../../components/SleepCard";
 import { sendRequest } from "~/server/send-request";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
+import withAuth from "~/withAuth";
 
 interface Sleep {
   createdAt: string;
@@ -12,7 +13,7 @@ interface Sleep {
   userId: string | null | undefined;
 }
 
-const UsersSleepLog = () => {
+const UsersSleepLog: React.FC = () => {
   const router = useRouter();
   const [sleeps, setSleeps] = useState<Sleep[]>([]);
 
@@ -58,4 +59,4 @@ const UsersSleepLog = () => {
   );
 };
 
-export default UsersSleepLog;
+export default withAuth(UsersSleepLog);

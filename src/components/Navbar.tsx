@@ -1,6 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 export const Navbar = () => {
   const router = useRouter();
@@ -37,7 +36,7 @@ export const Navbar = () => {
           <label
             tabIndex={0}
             className="btn-ghost btn-circle avatar btn"
-            onClick={() => void signOut()}
+            onClick={() => signOut({ callbackUrl: "/" })}
           >
             <div className="h-10 w-10 overflow-hidden rounded-full">
               <img

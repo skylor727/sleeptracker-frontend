@@ -168,6 +168,10 @@ export const SleepForm = () => {
               >
                 Save
               </button>
+              <span className="mt-2 block text-sm text-gray-300">
+                The time calculated is based off of allowing you 5 full sleep
+                cycles which will assist in making sure you feel fully rested
+              </span>
             </div>
           </form>
         </div>

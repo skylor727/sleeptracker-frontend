@@ -1,5 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const Navbar = () => {
   const router = useRouter();
@@ -20,18 +21,31 @@ export const Navbar = () => {
         </a>
       </div>
       {sessionData?.user ? (
-        <div className="flex items-center">
+        <div className="flex items-center space-x-4">
+          <a href="/sleep" className="text-lg font-semibold">
+            Sleep Calculator
+          </a>
+          <span>|</span>
+          <a
+            href={`/sleeps/${sessionData.user.id}`}
+            className="text-lg font-semibold"
+          >
+            Sleep Log
+          </a>
+          <span>|</span>
           <span className="mr-5">Welcome, {sessionData?.user?.name}</span>
           <label
             tabIndex={0}
             className="btn-ghost btn-circle avatar btn"
             onClick={() => void signOut()}
           >
-            <img
-              src={sessionData?.user?.image ?? ""}
-              alt={sessionData?.user?.name ?? "User"}
-              className="h-10 w-10 rounded-full object-cover"
-            />
+            <div className="h-10 w-10 overflow-hidden rounded-full">
+              <img
+                src={sessionData?.user?.image ?? ""}
+                alt={sessionData?.user?.name ?? "User"}
+                className="object-cover"
+              />
+            </div>
           </label>
         </div>
       ) : (

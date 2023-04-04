@@ -27,12 +27,11 @@ export const Navbar = () => {
             className="btn-ghost btn-circle avatar btn"
             onClick={() => void signOut()}
           >
-            <div className="w-10 rounded-full">
-              <img
-                src={sessionData?.user?.image ?? ""}
-                alt={sessionData?.user?.image ?? ""}
-              />
-            </div>
+            <img
+              src={sessionData?.user?.image ?? ""}
+              alt={sessionData?.user?.name ?? "User"}
+              className="h-10 w-10 rounded-full object-cover"
+            />
           </label>
         </div>
       ) : (

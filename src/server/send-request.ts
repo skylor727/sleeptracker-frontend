@@ -1,4 +1,4 @@
-let base_url = "http://localhost:8080/sleeps-api";
+let base_url = "https://skylor-p.com/sleeps-api";
 type SleepFormData = { [index: string]: string };
 
 export const sendRequest = async (

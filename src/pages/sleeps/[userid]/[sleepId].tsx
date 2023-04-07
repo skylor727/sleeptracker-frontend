@@ -1,4 +1,10 @@
-import { useSession } from "next-auth/react";
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SleepInfo from "~/components/SleepInfo";
@@ -11,8 +17,9 @@ interface Sleep {
   wakeUp?: string;
   goToSleep?: string;
   calculatedTime: string;
-  id: number;
-  userId: string | null | undefined;
+  id?: number;
+  userId?: string | null | undefined;
+  notes?: [] | undefined;
 }
 
 const SleepDetails: React.FC = () => {
@@ -23,39 +30,52 @@ const SleepDetails: React.FC = () => {
   const pathMatch = router.asPath.match(/\/sleeps\/(\w+)\/(\w+)/);
   const userId = pathMatch ? pathMatch[1] : null;
   const sleepId = pathMatch ? pathMatch[2] : null;
+  const [defaultNoteIdx, defaultSleepId, defaultUserId] = [0, 0, 0];
 
   const handleRedirect = () => {
-    router.push(`/sleeps/${userId}`);
+    void router.push(`/sleeps/${userId ?? defaultUserId}`);
   };
 
   const handleSubmit = async () => {
-    await sendRequest("POST", `/sleeps/${userId}/${sleepId}`, sleepNote);
+    await sendRequest(
+      "POST",
+      `/sleeps/${userId ?? defaultUserId}/${sleepId ?? defaultSleepId}`,
+      sleepNote
+    );
     setSleepNote("");
     setRefreshData(!refreshData);
   };
 
-  const handleDelete = () => {
-    sendRequest("DELETE", `/sleeps/${userId}/${sleepId}`);
+  const handleDelete = async () => {
+    await sendRequest(
+      "DELETE",
+      `/sleeps/${userId ?? defaultUserId}/${sleepId ?? defaultSleepId}`
+    );
     handleRedirect();
   };
 
   const handleNoteDelete = async (noteIndex: number) => {
-    const udpatedData = await sendRequest(
+    const updatedData = await sendRequest(
       "DELETE",
-      `/sleeps/${userId}/${sleepId}/${noteIndex}`
+      `/sleeps/${userId ?? defaultUserId}/${sleepId ?? defaultSleepId}/${
+        noteIndex ?? defaultNoteIdx
+      }`
     );
-    setSleep(udpatedData);
+    setSleep(updatedData ?? ({} as Sleep));
     setRefreshData(!refreshData);
   };
 
   const getSleep = async () => {
-    const data = await sendRequest("GET", `/sleeps/${userId}/${sleepId}`);
+    const data = await sendRequest(
+      "GET",
+      `/sleeps/${userId ?? defaultUserId}/${sleepId ?? defaultSleepId}`
+    );
     setSleep(data);
   };
 
   useEffect(() => {
     if (userId && sleepId) {
-      getSleep();
+      void getSleep();
     }
   }, [router.query, router.isReady, refreshData]);
 
@@ -94,7 +114,7 @@ const SleepDetails: React.FC = () => {
       </form>
       <h2 className="mb-6 pt-8 text-center text-2xl font-bold">Sleep Notes</h2>
       <div className=" mx-auto w-full sm:w-1/2 lg:w-1/3">
-        {sleep?.notes.map((note, idx) => (
+        {sleep?.notes?.map((note: string, idx: number) => (
           <SleepNoteBubble
             key={idx}
             note={note}

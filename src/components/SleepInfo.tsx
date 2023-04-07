@@ -1,9 +1,9 @@
 type SleepCardProps = {
   sleepDate: string | undefined;
   calculatedTimeToSleep: string | undefined;
-  sleepId: number | undefined;
-  userId: string | null | undefined;
-  notes: string[] | undefined;
+  sleepId?: number | undefined;
+  userId?: string | null | undefined;
+  notes?: string[] | undefined;
   timeToWakeUp?: string;
   timeWentToBed?: string;
   onDelete?: () => void;
@@ -14,10 +14,12 @@ export const SleepInfo: React.FC<SleepCardProps> = ({
   timeToWakeUp,
   timeWentToBed,
   calculatedTimeToSleep,
-  userId,
-  sleepId,
   onDelete,
 }) => {
+  const defaultWakeUpTime = "";
+  const defaultSleepTime = "";
+  const defaultCalculatedTimeToSleep = "";
+
   return (
     <div className="rounded-lg bg-base-200 p-6 text-center text-base-content shadow-lg">
       <ul>
@@ -26,13 +28,19 @@ export const SleepInfo: React.FC<SleepCardProps> = ({
         </li>
         <li className="mb-2">
           {timeToWakeUp
-            ? `Planned time to awake: ${timeToWakeUp}`
-            : `Planned time to go to sleep: ${timeWentToBed}`}
+            ? `Planned time to awake: ${timeToWakeUp ?? defaultWakeUpTime}`
+            : `Planned time to go to sleep: ${
+                timeWentToBed ?? defaultSleepTime
+              }`}
         </li>
         <li>
           {timeToWakeUp
-            ? `Time to go to sleep: ${calculatedTimeToSleep}`
-            : `Time to wake up: ${calculatedTimeToSleep}`}
+            ? `Time to go to sleep: ${
+                calculatedTimeToSleep ?? defaultCalculatedTimeToSleep
+              }`
+            : `Time to wake up: ${
+                calculatedTimeToSleep ?? defaultCalculatedTimeToSleep
+              }`}
         </li>
       </ul>
       <div className="my-4">

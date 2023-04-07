@@ -1,5 +1,9 @@
-let base_url = "https://skylor-p.com/sleeps-api";
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
+const base_url = "https://skylor-p.com/sleeps-api";
 type SleepFormData = { [index: string]: string };
+
 
 export const sendRequest = async (
   method: string,
@@ -29,7 +33,7 @@ export const sendRequest = async (
     try {
       return await res.json();
     } catch (e) {
-      console.log("error with json  " + e);
+      console.log(`error with json ${e}`);
     }
   }
 };

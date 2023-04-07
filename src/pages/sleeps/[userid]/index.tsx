@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
 import SleepCard from "../../../components/SleepCard";
 import { sendRequest } from "~/server/send-request";
 import { useEffect, useState, useMemo } from "react";

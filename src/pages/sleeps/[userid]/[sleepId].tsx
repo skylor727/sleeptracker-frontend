@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SleepInfo from "~/components/SleepInfo";
@@ -18,6 +19,7 @@ const SleepDetails: React.FC = () => {
   const router = useRouter();
   const [sleep, setSleep] = useState<Sleep>();
   const [sleepNote, setSleepNote] = useState("");
+  const [refreshData, setRefreshData] = useState(false);
   const pathMatch = router.asPath.match(/\/sleeps\/(\w+)\/(\w+)/);
   const userId = pathMatch ? pathMatch[1] : null;
   const sleepId = pathMatch ? pathMatch[2] : null;
@@ -27,8 +29,9 @@ const SleepDetails: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    sendRequest("POST", `/sleeps/${userId}/${sleepId}`, sleepNote);
+    await sendRequest("POST", `/sleeps/${userId}/${sleepId}`, sleepNote);
     setSleepNote("");
+    setRefreshData(!refreshData);
   };
 
   const handleDelete = () => {
@@ -42,6 +45,7 @@ const SleepDetails: React.FC = () => {
       `/sleeps/${userId}/${sleepId}/${noteIndex}`
     );
     setSleep(udpatedData);
+    setRefreshData(!refreshData);
   };
 
   const getSleep = async () => {
@@ -53,7 +57,7 @@ const SleepDetails: React.FC = () => {
     if (userId && sleepId) {
       getSleep();
     }
-  }, [router.query, router.isReady, sleep]);
+  }, [router.query, router.isReady, refreshData]);
 
   return (
     <>

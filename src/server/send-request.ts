@@ -1,22 +1,27 @@
-import { getSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
-let base_url = "http://localhost:8080";
+let base_url = "http://localhost:8080/sleeps-api";
 type SleepFormData = { [index: string]: string };
 
 export const sendRequest = async (
   method: string,
   apiUrl: string,
-  payload?: SleepFormData | string
+  payload?: SleepFormData | string,
+  token?: string
 ) => {
-  const session = await getSession();
-  console.log(session);
+  const headers = new Headers({
+    "Content-Type": "application/json",
+  });
+
+  if (token) {
+    headers.append("Authorization", `Bearer ${token}`);
+  }
+
   const options: RequestInit = {
     method: method,
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
+    credentials: "include",
+    headers,
     body: payload ? JSON.stringify(payload) : undefined,
   };
+
   let url = `${base_url}${apiUrl}`;
   url = encodeURI(url);
   const res = await fetch(url, options);

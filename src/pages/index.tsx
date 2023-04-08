@@ -8,7 +8,7 @@ const Home: NextPage = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <Image
-            src="/static/bed.svg"
+            src="/sleep-tracker/static/bed.svg"
             alt="Bed"
             className="max-w-sm rounded-lg shadow-2xl"
           />

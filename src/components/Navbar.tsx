@@ -15,7 +15,7 @@ export const Navbar = () => {
   };
 
   const handleSignIn = async () => {
-    await signIn("google");
+    void signIn();
   };
 
   return (

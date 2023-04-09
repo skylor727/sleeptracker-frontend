@@ -20,15 +20,10 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+
 }
 
 /**
@@ -46,46 +41,15 @@ export const authOptions: NextAuthOptions = {
     },
   },
   adapter: PrismaAdapter(prisma),
-  pages: {
-    signIn: "/api/auth/signin",
-    signOut: "/api/auth/signout",
-    error: "/api/auth/error",
-    verifyRequest: "/api/auth/verify-request",
-    newUser: "/api/auth/new-user",
-  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        url: "https://accounts.google.com/o/oauth2/auth",
-        params: {
-          response_type: "code",
-          prompt: "consent",
-          access_type: "offline",
-          include_granted_scopes: "true",
-          redirectUri:
-            "https://skylor-p.com/sleep-tracker/api/auth/callback/google",
-        },
-      },
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the GOOGLE provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
 };
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
+
 export const getServerAuthSession = (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];

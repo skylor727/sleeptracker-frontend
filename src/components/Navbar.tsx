@@ -15,7 +15,7 @@ export const Navbar = () => {
   };
 
   const handleSignIn = async () => {
-    void signIn();
+    await signIn("google");
   };
 
   return (
@@ -50,6 +50,8 @@ export const Navbar = () => {
                 src={sessionData?.user?.image ?? ""}
                 alt={sessionData?.user?.name ?? "User"}
                 className="object-cover"
+                width={50}
+                height={40}
               />
             </div>
           </label>

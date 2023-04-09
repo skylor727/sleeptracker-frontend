@@ -10,7 +10,7 @@ const withAuth = (Component: React.ComponentType) => {
     }
 
     if (!sessionData?.user) {
-      void signIn();
+      void signIn("google");
     }
 
     return <Component {...props} />;

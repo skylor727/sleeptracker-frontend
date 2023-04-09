@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
@@ -45,10 +46,28 @@ export const authOptions: NextAuthOptions = {
     },
   },
   adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: "/api/auth/signin",
+    signOut: "/api/auth/signout",
+    error: "/api/auth/error",
+    verifyRequest: "/api/auth/verify-request",
+    newUser: "/api/auth/new-user",
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        url: "https://accounts.google.com/o/oauth2/auth",
+        params: {
+          response_type: "code",
+          prompt: "consent",
+          access_type: "offline",
+          include_granted_scopes: "true",
+          redirectUri:
+            "https://skylor-p.com/sleep-tracker/api/auth/callback/google",
+        },
+      },
     }),
     /**
      * ...add more providers here.

@@ -11,6 +11,8 @@ const Home: NextPage = () => {
             src="/sleep-tracker/static/bed.svg"
             alt="Bed"
             className="max-w-sm rounded-lg shadow-2xl"
+            width={400}
+            height={400}
           />
           <div>
             <h1 className="text-5xl font-bold">Sleep Tracker</h1>

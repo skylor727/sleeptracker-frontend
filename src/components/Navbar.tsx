@@ -11,7 +11,7 @@ export const Navbar = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: "/" });
+    await signOut({ callbackUrl: "/sleep-tracker" });
   };
 
   const handleSignIn = async () => {
@@ -37,7 +37,7 @@ export const Navbar = () => {
           <Link
             className="text-lg font-semibold"
             href={`/sleeps/${sessionData.user.id}`}
-          ></Link>
+          >Sleep Log</Link>
           <span>|</span>
           <span className="mr-5">Welcome, {sessionData?.user?.name}</span>
           <label
@@ -46,7 +46,7 @@ export const Navbar = () => {
             onClick={() => void handleSignOut()}
           >
             <div className="h-10 w-10 overflow-hidden rounded-full">
-              <Image
+              <img
                 src={sessionData?.user?.image ?? ""}
                 alt={sessionData?.user?.name ?? "User"}
                 className="object-cover"

@@ -19,10 +19,10 @@ export const SleepCard: React.FC<SleepCardProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleClick = async () => {
+  const handleClick = () => {
     const defaultUserId = "default-user";
     const defaultSleepId = "default-sleep";
-    await router.push(
+    void router.push(
       `/sleeps/${userId ?? defaultUserId}/${sleepId ?? defaultSleepId}`
     );
   };
@@ -44,7 +44,7 @@ export const SleepCard: React.FC<SleepCardProps> = ({
           </li>
         </ul>
         <div className="card-actions justify-end">
-          <button onClick={void handleClick} className="btn-primary btn">
+          <button onClick={handleClick} className="btn-primary btn">
             Details
           </button>
         </div>

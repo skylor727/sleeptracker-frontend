@@ -19,6 +19,7 @@ interface Sleep {
 
 const UsersSleepLog: React.FC = () => {
   const router = useRouter();
+  const isNewSleepAdded = router.query.newSleepAdded === "true";
   const [sleeps, setSleeps] = useState<Sleep[]>([]);
 
   const userId = useMemo(() => {
@@ -30,13 +31,17 @@ const UsersSleepLog: React.FC = () => {
     if (userId) {
       const data = await sendRequest("GET", `/sleeps/${userId}`);
       setSleeps(data);
+      if (isNewSleepAdded) {
+        const newUrl = router.asPath.replace(/\?newSleepAdded=true/, "");
+        router.replace(newUrl, undefined, { shallow: true });
+      }
     }
   };
 
   useEffect(() => {
     if (!userId) return;
     getUsersSleeps();
-  }, [userId]);
+  }, [userId, isNewSleepAdded]);
 
   if (!sleeps) return <div>Loading...</div>;
 
@@ -44,7 +49,7 @@ const UsersSleepLog: React.FC = () => {
     <>
       <h1 className="mb-6 pt-8 text-center text-4xl font-bold">Sleep Log</h1>
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 gap-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {sleeps &&
             sleeps.map((sleep, index) => (
               <SleepCard

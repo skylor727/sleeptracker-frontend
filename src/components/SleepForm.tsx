@@ -21,10 +21,10 @@ export const SleepForm = () => {
 
   const redirect = async () => {
     const defaultId = 0;
-    await router.push(`/sleeps/${sessionData?.user?.id ?? defaultId}`);
+    await router.push(`/sleeps/${sessionData?.user?.id ?? defaultId}?newSleepAdded=true`);
   };
 
-  const handleSubmit = (sleepFormData: SleepFormData) => {
+  const handleSubmit = async (sleepFormData: SleepFormData) => {
     const calculatedTime = calculateTime(sleepFormData);
     sleepFormData.calculatedTime = calculatedTime;
     if (sleepFormData.calculationChoice === "wakeUp") {
@@ -46,7 +46,7 @@ export const SleepForm = () => {
       ? (sleepFormData["goToSleep"] = "")
       : (sleepFormData["wakeUp"] = "");
     sleepFormData.userId = sessionData?.user.id;
-    void sendRequest("POST", "/sleep", sleepFormData);
+    await sendRequest("POST", "/sleep", sleepFormData);
     void redirect();
   };
 

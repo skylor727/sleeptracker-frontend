@@ -8,9 +8,11 @@ const Home: NextPage = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <Image
-            src="/sleep-tracker/static/bed.svg"
+              src="/bed.svg"
             alt="Bed"
             className="max-w-sm rounded-lg shadow-2xl"
+            width={600}
+            height={600}
           />
           <div>
             <h1 className="text-5xl font-bold">Sleep Tracker</h1>

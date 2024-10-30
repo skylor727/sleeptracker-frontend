@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-const base_url = "https://skylor-p.com/sleeps-api";
+const base_url = "http://localhost:8080/sleeps-api";
 type SleepFormData = { [index: string]: string };
 
 

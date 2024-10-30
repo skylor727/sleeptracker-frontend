@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import userid from "~/pages/sleeps/[userid]";
 
 type SleepCardProps = {
   sleepDate: string;
@@ -22,6 +23,8 @@ export const SleepCard: React.FC<SleepCardProps> = ({
   const handleClick = async () => {
     const defaultUserId = "default-user";
     const defaultSleepId = "default-sleep";
+    console.log(userId);
+    console.log(sleepId)
     await router.push(
       `/sleeps/${userId ?? defaultUserId}/${sleepId ?? defaultSleepId}`
     );

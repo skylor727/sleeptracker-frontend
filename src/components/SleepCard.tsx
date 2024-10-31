@@ -47,7 +47,7 @@ export const SleepCard: React.FC<SleepCardProps> = ({
           </li>
         </ul>
         <div className="card-actions justify-end">
-          <button onClick={void handleClick} className="btn-primary btn">
+          <button onClick={ handleClick} className="btn-primary btn">
             Details
           </button>
         </div>
